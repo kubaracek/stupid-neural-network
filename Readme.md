@@ -32,9 +32,9 @@ Well, almost. Stupid and artifical
 
 ```python
 class NeuralNetwork:
-    def __init__(self, x, y):
-        self.input      = x
-        self.y          = y
+    def __init__(self, input, res):
+        self.input      = input
+        self.res        = res
         self.weights1   = np.random.rand(self.input.shape[1],4) 
         self.weights2   = np.random.rand(4,1)                 
         self.output     = np.zeros(y.shape)
@@ -43,9 +43,9 @@ class NeuralNetwork:
         self.layer1 = sigmoid(np.dot(self.input, self.weights1))
         self.output = sigmoid(np.dot(self.layer1, self.weights2))
         
-    def backprop(self):
-        derived_weights2 = np.dot(self.layer1.T, (2*(self.y - self.output) * sigmoid(self.output, True)))
-        derived_weights1 = np.dot(self.input.T,  (np.dot(2*(self.y - self.output) * sigmoid(self.output, True), self.weights2.T) * sigmoid(self.layer1, True)))
+    def backpropagation(self):
+        derived_weights2 = np.dot(self.layer1.T, (2*(self.res - self.output) * sigmoid(self.output, True)))
+        derived_weights1 = np.dot(self.input.T,  (np.dot(2*(self.res - self.output) * sigmoid(self.output, True), self.weights2.T) * sigmoid(self.layer1, True)))
         
         self.weights1 += derived_weights1
         self.weights2 += derived_weights2
@@ -66,7 +66,7 @@ neural_net = NeuralNetwork(X,y)
 
 for i in range(1500):
     neural_net.feedforward()
-    neural_net.backprop()
+    neural_net.backpropagation()
 
 print(neural_net.output)
 ```
